@@ -1,0 +1,61 @@
+django 시작하기 210708~
+
+virtual environment >> 사용자가 서로 다른 두 환경에서 상호작용 할 수 있도록 도와줌.
+                        각 가상환경은 종속성을 유지한다. 
+                        가상환경을 이용함으로서 양쪽의 프로젝트의 종속성을 유지하는것이 매우 편리해진다.
+                        proj1 = python 2.6, proj2 = python 3.8
+                      
+                     
+django -admin startproject config . >> 현재 디렉토리에서 django를 시작 생성되는 파일은 다음과같다
+
+장고는 MVC패턴에서 views = Templates , controls = views 이다. 따라서 
+장고는 MTV패턴이라고 생각하자.
+
+
+LocalDir
+  config
+      __init__
+      asgi : channels를 이용할때 필요함
+      settings : Django 프로젝트의 환경 및 구성을 저장. 웹사이트의 설정이 저장되어있음
+      urls : 프로젝트의 url을 저장, url의 규칙을 보고 내부에 일치하는 view를 찾아 1:1 연결
+      wsgi : 웹서버와 통신하기 위한 인터페이스
+  AppName
+      __init__
+      admin : 앱의 관리자 사이트 설정
+      apps : 앱의 기본 설정을 담음
+      models : 모델에 대한 정보를 저장하고 테이블 필드를 제어
+      views : 앱에 대한 view를 생성 (Control에 해당)
+      tests : test case
+      migration : 데이터베이스에서 정보를 얻어와 다른곳으로 전송시켜주는 프로세스
+  
+  manage: project와 상호작용하는 유틸리티도구
+          스크립트와 사이트 관리를 도와줌
+          웹서버를 실행해줌
+          
+         
+Page Not Found 404 errors : urls.py에 URL매핑이 없기 때문이다.
+HttpResponse : 페이지 요청에 대한 응답을 할 때 이용되는 장고 클래스
+
+def index(request):
+  return HttpResponse()
+  
+  URL을 분리하여 저장 : App관련 파일은 거의 AppName 디렉토리에 있어야하는데 urls.py는 그렇지 않다 따라서 URL이 수정될때 config 디렉터리에 있는 
+  urls를 수정해야한다 이것은 프로젝트의 설계에 잘못된것이며 urls.py 를 따로 구성해야한다.
+    path('AppName/',include('AppName.urls'))를 통해 AppName으로 시작되는 페이지 요청은 모두 AppName.urls의 URL 매핑을 참고하여 처리하라는 의미이다.
+    AppName.urls.py 의 path('create',views.index)이면 최종 URL은 AppName/create/가 된다
+unapplied migration(s). >> INSTALLED_APPS에서 데이터베이스를 이용하는 앱들이 필요로 하는 테이블이 생성되지 않았기때문이다.
+  python manage.py migrate를 통해서 각 앱들이 사용하는 테이블을 만들어준다.
+
+Django의 ORM(object relational mapping) : 데이터베이스와 객체간의 호환되지 않는 데이터를 매핑해주는 프로그래밍 기법
+ORM 덕분에 파이썬은 쿼리문을 작성하지 않고 DML DDL등을 이용 할 수 있다.
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
