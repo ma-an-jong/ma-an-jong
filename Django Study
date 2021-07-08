@@ -47,11 +47,61 @@ unapplied migration(s). >> INSTALLED_APPS에서 데이터베이스를 이용하�
   python manage.py migrate를 통해서 각 앱들이 사용하는 테이블을 만들어준다.
 
 Django의 ORM(object relational mapping) : 데이터베이스와 객체간의 호환되지 않는 데이터를 매핑해주는 프로그래밍 기법
-ORM 덕분에 파이썬은 쿼리문을 작성하지 않고 DML DDL등을 이용 할 수 있다.
+ORM 덕분에 파이썬은 Query문을 작성하지 않고 DML DDL등을 이용 할 수 있다.
 
+ORM은 DB의 3가지 단점을 제거한다.
+  1.개발자마다 작성되는 Query문은 통일성이 깨진다.
+  2.개발자가 Query문을 잘못 작성하게 되면 시스템 성능이 저하된다.
+  3.데이터베이스를 변경하게 되면 데이터베이스에 의존적인 Query문을 모두 재작성해야한다.
+  
+  ORM은 테이블을 모델화하여 사용하여 Query문을 자동으로 생성하기 때문에 Query문 작성에 의한 3가지 단점을 모두 제거한다.
+  
+  
+models.py에 모델 작성하기
+  class Model(models.Model):
+    """
+    필드 선언
+    """
+  Class 생성을 통해 모델을 정의한다. 객체의 필드는 테이블의 속성이 되도록 필드에 변수를 선언하고 각 변수에 맞는 값을 대입해주면 된다.
+  models.Model은 이 Model클래스가 장고 모델임을 인식하여 데이터베이스에 저장되어야 할 클래스 임을 알게된다.
 
+    INSTALLED_APP에 작성한 AppName을 등록해야한다.
+    
+    INSTALLED_APP = [
+      """
+      'AppName.apps.AppNameConfig'
+      """
+    ]
+    
+    apps.py 에 AppNameConfig클래스를 만든다.
+    
+    from django.apps import AppConfig
+    class AppNameConfig(AppConfig):
+      name = 'AppName'
+    
+    INSTALLED_APP에 추가했으면 migrate로 테이블을 생성해줘야한다.
+    하지만 모델이 생성되거나 변경되면 테이블 작업 파일이 필요하기 때문에 makemigrations를 먼저 실행한다
+    
+    python manage.py makemigrations 를 통해 장고가 테이블 작업을 수행하기 위한 파일들을 생성해준다. 실제 테이블 생성 명령은 migration이다.
+    
+    Django shell : python shell 과는 다르게 장고에 필요한 환경들이 자동으로 설정되어 실행된다.
+    
+    
+        
 
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
