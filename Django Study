@@ -110,9 +110,194 @@ models.py에 모델 작성하기
     admin.site.register(A)
     """
     Admin화면에서 A모델을 직관적으로 관리 할 수 있다.
+    또한 search_field 등을 선언하여 데이터 관리에 기능을 추가 할 수 있다.
+    
+    from django.shortcut import render : 모델 데이터를 템플릿 파일을 사용하여 화면에 출력해줌.
+    render(request,'template.html',출력할 내용)
+    
+    장고는 파이썬 코드에 있는 모델 데이터를 .html파일에 적용하여 HTML코드로 변환해준다. 이때 .html 파일을 템플릿이라 부른다.
+    단순히 jsp와 비슷하게 장고의 태그를 추가한 html 이라 생각하자.
+    템플릿을 추가할때는 settings에 DIRS에 템플릿 디렉터리를 등록하여 이용한다.
+    
+    장고의 템플릿 태그는 다음과 같다
+    {% Tag %} {% endTag%}: for if 등 이용 
+    {{ Variable | filter }} 또는 {{  Variable }} 변수의 속성에 접근도 가능하고 필터로 length등 접근 가능
+    {% comment %} 주석 {% endcomment %}
+    
+    {% extends "template.html" %}
+  
+    {% block attribute %}
+    {% endblock %}
+    위 코드 처럼 템플릿 상속 또한 제공한다. 템플릿 상속을 통해서 웹 표준을 지키는 장고 템플릿 파일을 만들수있다.
+    {% block attribute %} {% endblock %} 태그 사이에 템플릿 파일을 상속한 파일에서 구현하면 된다.
+    
+    django.urls.path() 함수는 path(route, view, kwargs=None, name=None) 와 같이 4개의 파라미터를 받아들일 수 있는데, 
+    처음 2개의 파라미터는 반드시 있어야 하고, 뒤의 2개는 옵션이다. 
+    첫번째 파라미터에는 URL route에서 사용된 경로를 지정하는 것이고,
+    두번째 파라미터는 해당 URL에 상응하는 View를 지정하는 것이다. 
+    두번째 파라미터에서 View를 지정하는 방식으로는 함수 뷰(function view)의 이름을 지정하거나
+    클래스에 기반한 View (class based view)의 경우 "클래스명.as_view()"와 같이 지정한다.
+    
+    세번째 파라미터에는 Dictionary 형식의 아큐먼트를 옵션으로 지정할 수 있으며,
+    마지막으로 네번째 파라미터에는 path 이름을 지정하는 것으로 이는 path명으로부터 URL 패턴 정보를 찾는 URL Reversing 을 위해 흔히 사용된다
+    
+    첫번째와 두번째는 중요하니 반드시 이해하자.
+    
+    path('',views.index) : 공백 즉 디폴트 웹페이지 URL인 경우 index() 함수를 호출하도록 표현한 것이다. 
+    path("/egs.txt",views.ads) : "/egs.txt"를 요구했을 때, views.py 에 있는 egs() 함수를 호출할 것을 지정한 것이다.
     
     
+    Page Not Found 404 출력 : shortcut로 부터 get_object_or_404를 import한다.
+    get_object_or_404(Model,pk = id)  이 함수는 모델의 기본키를 이용하여 모델 객체 한 건을 반환한다. 기본키에 매핑되는 튜플이 없다면 404페이지를 반환한다.
+    
+    
+    URL 별칭을 통한 하드코딩 문제 해결
+    
+    path의 네번째 파라미터를 통해 name 속성을 부여한다. 이후 템플릿에서 name을 통해서 URL의 실제 주소가 아닌 별칭을 매핑한다.
+    
+    그런데 name이 같은 앱이 존재할수있다. 이 경우에는 namespace를 도입하여 각 앱이 관리하는 독립된 이름 공간을 만들어 URL별칭을 유일하게 만들어준다
+    {% url AppName:'name' A.id %}
+    
+    
+    request 보내고 받은 값 출력하기 : 장고의 form을 이용
+    
+    
+    <form action = "{% url 'AppName:name' A.id %}" method = "post">
+    {% csrf_token %}
+    <textarea name = "content" id = "content" rows = "15"> </textarea>
+    <input type = "submit" value = "등록"> </input>
+    </form>
+    
+    HTML에서의 form은 사용자가 데이터를 입력 할 수 있도록 해주고 서버로 데이터를 보내주는 역할을 한다. 
+    form은 서버로 보낼 때 어디로 보낼지 목적지 그리고 HTTP 방법을 명시해줘야 된다.
+    위의 코드에서는 데이터를 보낼 때 HTTP 방법은 POST 방식이되고 목적지는 AppName의 name에 매핑되는 url로 이동한다.
+    textarea는 사용자가 보낼 데이터를 입력하는 부분이다.
+    장고에서의 form은 더 나아가
+    
+   1. 렌더링을 위해서 데이터를 준비하고 재구성한다.
+   2. HTML 폼을 만든다.
+   3. 클라이언트로부터 제출이 된 데이터를 받고 처리해준다.
+    
+    장고는 form 기능을 수행하기 위해서 form클래스를 이용하는데
+    모델 클래스의 필드는 모델 클래스의 필드가 데이터베이스 필드에 매칭 되는 것처럼
+    폼도 폼 필드의 클래스는 html 요소 즉 태그에 매핑이 된다.
+    
+    다음은 입력받은 B에 대한 request를 Model에 추가하여 저장하는 메소드이다.
+    
+    def B_request_create(request,A_id):                             
+                  a = get_object_or_404(A,pk = A.id)                          
+                  a.B_set.create(content = request.POST.get('content'),      
+                                  create_date = timezone.now() )
+    
+    
+    파라미터로 request에는 textarea에 담긴 데이터가 파이썬 객체에 담겨 넘어온다
+    A_id에는 URL 매핑 장보가 넘어온다 예를 들어 hello/world/123이 요청되면 A_id에는 2가 넘어온다.
 
+    request로 부터 얻은 정보를 추출하기 위해 request.POST.get('content')를 content에 저장한다.
+    이후 a.B_set.create 메소드를 써서  새로운 B 모델 데이터를 생성한다.
+    
+    classname_set 은 두 테이블간에 역참조 관계일때 해당하는 queryset을 반환해준다. 그리고 여기에 추가 삭제 할 시 db에 바로 저장이된다.
+    
+    상세 화면을 호출하려면 redirect를 이용한다. 
+    redirect함수는 함수에 전달된 값을 참고하여 페이지 이동을 수행한다 첫번재 인수에는 이동할 페이지의 별칭을 두번째 인수에는 해당 URL에 전달해야하는 값을 입력한다.
+    redirect('AppName:name',A_id = a.id)
+    
+    장고 폼
+    HTML 폼은 웹 페이지 상에서 한개 이상의 필드나 위젯들의 묶음을 말하며, 사용자로부터 정보를 수집하여 서버에 제출하는데 사용된다. 폼은 사용자 입력을 수집하는데 유연하게 한다.
+    
+    장고폼은 2가지로 나눈다
+    
+    폼 : forms.Form을 상속받음 , 직접 필드를 정의해야함 , 위젯 설정이 필요함
+    
+    모델 폼 : forms.ModelForm을 상속받음 모델과 필드를 지정하면 모델폼이 자동으로 폼 필드를 
+      모델과 연결된 폼이며 모델 폼 객체를 저장하면 연결된 모델의 데이터를 저장 할 수 있다.
+      
+    장고 모델 폼은 내부 클래스로 Meta클래스를 반드시 가져야하며 Meta 클래스에는 모델 폼이 사용할 모델과 모델의 필드들을 적어야한다.
+    
+    from django import forms
+    from AppName.models import A
+    
+    class AForm(forms.ModelForm):
+        class Meta:
+            model = A
+            fields = ['subject','content']
+   
+   
+   AForm 클래스는 A 모델과 연결되어 있으며 필드는 subject , content를 사용한다고 정의했다.
+   
+   이 폼은 템플릿에서 {{ form.as_p }} 를 통해 전달된다 여기서 form이 바로 사용자가 입력한 데이터를 전달한 QuestionForm 객체이다.
+   모델 폼과 연결된 subject,content에 값을 입력할 수 있는 HTML코드를 자동으로 만들어준다.
+   
+   def create(request):
+   
+      if request.method == 'POST':
+          form = QuestionForm(request.POST)
+          """
+          
+          """
+      else:
+          form = QuestionForm()
+          """
+          
+          """
+      context = {'form':form}
+      return render(request,'templates.html',context)
+          
+    URL요청이 POST인지 GET인지 구분하여 처리한다.
+    POST일경우 화면에 전달받은 데이터로 폼의 값이 채워지도록 객체를 만든다.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
