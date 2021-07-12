@@ -246,28 +246,107 @@ models.py에 모델 작성하기
     URL요청이 POST인지 GET인지 구분하여 처리한다.
     POST일경우 화면에 전달받은 데이터로 폼의 값이 채워지도록 객체를 만든다.
     
+    페이징 기능 구현 : Paginator를 index 함수에 추가하여 구현
+    
+    page = request.GET.get('page','1') //page값을 가져옴 ?page가 없으면 1을 기본값으로 하여 가져온다.
     
     
+    paginator = Paginator(question_list,10) //page당 한번에 10개씩 보여주기
+    page_obj = paginator.get_page(page) // 현재 page객체 반환
+    
+    context = {'question_list':page_obj}
+    return render(request,'pybo/question_list.html',context)
+    
+    Paginator클래스는 question_list를 페이징 객체 paginator로 변환한다.
+    두 번째 파라미터는 페이지당 보여줄 게시물 개수를 의미한다.
+    
+   page_obj = paginator.get_page(page)로 만들어진 page_obj는 다음 속성을 이용한다
+   
+   paginator.count : 전체 게시물 개수
+   paginator.per_page : 페이지당 보여줄 게시물 개수
+   paginator.page_range : 페이지 범위
+   number : 현재 페이지 번호
+   previous_page_number : 이전 페이지 번호
+   next_page_number : 다음 페이지 번호
+   has_previous : 이전 페이지 유무
+   has_next : 다음 페이지 유무
+   start_index : 현재 페이지 시작 인덱스
+   end_index : 현재 페이지의 끝 인덱스
     
     
+    템플릿 필터 작성하기: 템플릿 필터 파일을 만든 후 load를 이용하여 적용
+    
+    from django import template
+    
+    register = template.Library()
+    
+    @register.filter
+    def sub(value,arg):
+      return value - arg
+  
+    @register.filter 라는 애너테이션을 적용하면 템플릿에서 해당 함수를 필터로 사용할 수 있게 된다.
+    
+    템플릿 필터 함수를 템플릿에 사용하기 위해서는 맨 위에 {% load pybo_filter %} 처럼 템플릿 필터 파일을 로드해야한다. load는 extends문 다음에 위치한다.
+    
+    로그인/로그아웃 구현 : django.contrib.auth 앱을 이용하여 구현
+    
+    로그인/로그아웃 >> 다른 사이트에서도 이용하는 공통 기능
+    
+    '공통 기능을 가진 앱'이라는 의미의 common앱에 로그인/로그아웃 구현 
+    common앱을 생성하기 위해 django-admin startapp common 실행
+    settings.py 에 common앱을 등록해야함 INSTALLED_APP에 'common.apps.CommonConfig' 추가
+    이후 common앱의 urls.py를 이용하기위해 path('common/',include('common.urls')), 추가
+    common/urls.py 생성 하고 app_name = 'common'으로 설정
+    
+    로그인 구현 : 기본 설정 account와 LoginView를 이용
+    
+    urls.py 에 URL매핑 추가. 
+    views.py 에 로그인을 하는 메소드 추가 안해도 됨  django.contrib.auth에 있는 LoginView클래스를 이용하면 되기 때문.
+    단, 현재 디렉토리의 view.py와 이름이 겹치지 않게 as logView등 다른 이름으로 바꿔준다.
+    
+    LoginView클래스는 registration이라는 템플릿 디렉터리에서 login.html파일을 찾는다. 따라서 registration/login.html 템플릿 파일을 작성해준다.
+    
+    하지만 login 기능은 일반적인 기능이기 때문에 common디렉터리에 템플릿을 생성하는것이 좋다.(앱 기능을 모아둔 common이 아닌 템플릿 기능을 모아둔 common)
+    따라서 LoginView가 common디렉터리를 참조할수 있도록 urls.py를 수정한다.
+    path('/login',auth_views.LoginView.as_view(template_name = 'common/login.html'),name = 'login')
+    
+    as_view 함수에서 template_name = 'common/login.html'로 설정하면 registration 디렉터리가 아니라 common 디렉터리에서 login.html파일을 참조하게 된다. 
+    
+    이후 로그인에 성공 시 이동할 페이지를 등록해야한다. 기본 설정은 accounts/profile 로 이동하지만 path에 매핑이 안되있다면 오류가 발생한다.
+    settings.py에 마지막 줄에 LOGIN_REDIRECT_URL = '/'을 추가한다.
+    그러면 config에 있는 urls.py에서 '/'에 맞는 URL을 찾아서 따라 갈것이다. 없다면 추가하자    
+    
+    로그아웃 구현 : 
+    
+    로그아웃 링크를 추가하여 urls.py 에 매핑
+    그리고 로그인과 같이 로그아웃 성공시 이동할 페이지 settings.py에 등록
+    LOGOUT_REDIRECT_URL = '/' 로 설정
+    
+    회원가입 구현 : contrib.auth 앱을 이용하여 구현  >> 회원가입 또한 공통적인 기능이기 때문 common에 작성한다.
+    
+    login.html에 회원가입 url을 추가했으므로 여기에 맞는 URL매핑을 추가해야한다.    
+    path('signup/',views.signup,name = 'signup')
+    
+    이후 회원가입에 사용할 UserForm을 commons/forms.py 파일에 작성한다. 
+    
+    from django import forms
+    from django.contrib.auth.forms import UserCreationForm
+    from django.contrib.auth.models import User
+    
+    class UserForm(UserCreationForm):
+      email = forms.EmailField(label = '이메일')
+      
+      class Meta:
+          model = User
+          field = ("username","email")
     
     
+    UserForm은 django의 UserCreationForm을 상속하고 email을 추가하였다.
+    UserCreationForm은 username, password1 , password2 속성을 가지고있다.
+    거기에 추가로 email 속성을 추가하였다. 
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    class Meta: '''''
     
     
     
