@@ -5,6 +5,7 @@
 ### 💬 Ask me about what you wonder for me
 ### 📫 How to reach me: alswhd1113@gmail.com
 
+<img align='right' src="http://mazassumnida.wtf/api/v2/generate_badge?boj=haesoo9410">
 <!--
 **ma-an-jong/ma-an-jong** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
