@@ -14,3 +14,6 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+
+<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/45247633"/></a> &nbsp
