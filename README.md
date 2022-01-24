@@ -13,7 +13,9 @@ Here are some ideas to get you started:
 - 📫 How to reach me: ...
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
+
+
 -->
 
-
-<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/45247633"/></a> &nbsp
+<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/45247633?style=flat-square&logo=HTML5&logoColor=white"/></a>
+<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/45247633?style=flat-square&logo=HTML5&logoColor=white"/></a>
