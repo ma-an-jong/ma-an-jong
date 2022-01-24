@@ -1,11 +1,11 @@
 
 ### <a href = "https://solved.ac/profile/alswhd1113"> <img align='right' src="http://mazassumnida.wtf/api/v2/generate_badge?boj=alswhd1113"></a>
-### I’m currently learning NLP with DeepLearning in KLE445🌱
+### ✨ I’m currently learning NLP with DeepLearning
 ### 💬 Ask me about what you wonder for me
 ### 📫 How to reach me: alswhd1113@gmail.com
 
 <!--
-**ma-an-jong/ma-an-jong** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**ma-an-jong/ma-an-jong** is a ✨ _special_ 🌱 repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
 ### Hi there 👋
