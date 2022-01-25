@@ -22,12 +22,16 @@ Here are some ideas to get you started:
 
 -->
 
+<div align="center">
 <a href = "https://www.credential.net/embed/3c4c8ecb-8ae2-4c49-a167-183ff623f9ea">
-<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/45247633?style=flat-square&logo=HTML5&logoColor=white" style="width:600px ; margin: 0px auto"/>
+<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/45247633?style=flat-square&logo=HTML5&logoColor=white" style="width:600px"/>
+</a>
+</div>
+
 <!--
 <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/45247633?style=flat-square&logo=HTML5&logoColor=white" style = "background-color: white"/>
 -->
-</a>
+
 
 
 
