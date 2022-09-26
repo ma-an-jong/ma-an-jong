@@ -29,7 +29,7 @@ Here are some ideas to get you started:
 </div>
 
 <!--
-<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/45247633?style=flat-square&logo=HTML5&logoColor=white" style = "background-color: white"/>
+<img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/56235149" style = "background-color: white"/>
 -->
 
 
