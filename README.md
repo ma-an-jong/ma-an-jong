@@ -1,7 +1,5 @@
 
 ### <a href = "https://solved.ac/profile/alswhd1113"> <img align='right' src="http://mazassumnida.wtf/api/v2/generate_badge?boj=alswhd1113"></a>
-### ✨ I'm trying to become DATA ENGINEER
-### 💬 Ask me about what you wonder for me
 ### 📫 How to reach me: alswhd1113@gmail.com
 
 <!--
