@@ -1,5 +1,13 @@
-### <div align=center ><h3>📫 How to reach me: alswhd1113@gmail.com</h3> </div>
-### <div align=center ><h2>📚 STACKS </h2></div>
+### **Contact.**
+
+**📧 Email : [alswhd1113@gmail.com](mailto:alswhd1113@gmail.com)**
+
+### **Channel.**
+
+**💚**  [solved.ac](https://solved.ac/profile/alswhd1113)
+
+**♥️**  [YouTube](https://www.youtube.com/@seconf)
+
 
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
