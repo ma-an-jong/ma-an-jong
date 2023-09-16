@@ -4,9 +4,9 @@
 
 ### **Channel.**
 
-**💚**  [solved.ac](https://solved.ac/profile/alswhd1113) **💚**
+**💚**   [solved.ac](https://solved.ac/profile/alswhd1113)  **💚**
 
-**♥**  [YouTube](https://www.youtube.com/@seconf) **♥**
+**♥**   [YouTube](https://www.youtube.com/@seconf)  **♥**
 
 
 <div align=center> 
