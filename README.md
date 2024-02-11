@@ -26,4 +26,3 @@
 <img src="https://images.credential.net/embed/1wttc0ag.png" style="width:600px"/>
 </a>
 </div>
-.
