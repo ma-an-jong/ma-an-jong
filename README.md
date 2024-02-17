@@ -2,7 +2,7 @@
 
 **📧 Email : [alswhd1113@gmail.com](mailto:alswhd1113@gmail.com)**
 
-### **Channel**
+### **Channel.**
 
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
